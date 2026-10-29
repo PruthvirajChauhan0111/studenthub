@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Directory | StudentHub</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script src="students.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>StudentHub</h1>
+        <p>Your student information portal</p>
+
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="result.html">Results</a></li>
+                <li><a href="timetable.html">Timetable</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="students.html" aria-current="page">Students</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="student-directory">
+        <section class="directory-heading">
+            <p class="directory-eyebrow">STUDENT SERVICES</p>
+            <h2>Student Directory</h2>
+            <p>Search, filter and explore the student records.</p>
+        </section>
+
+        <section class="directory-panel" aria-label="Student search and results">
+            <div class="directory-controls">
+                <div class="directory-control">
+                    <label for="studentSearch">Search students</label>
+                    <input
+                        type="search"
+                        id="studentSearch"
+                        placeholder="Search name, ID or email..."
+                    >
+                </div>
+
+                <div class="directory-control">
+                    <label for="courseFilter">Filter by course</label>
+                    <select id="courseFilter">
+                        <option value="all">All courses</option>
+                        <option value="BCA">BCA</option>
+                        <option value="BSc IT">BSc IT</option>
+                        <option value="BTech">BTech</option>
+                        <option value="MCA">MCA</option>
+                    </select>
+                </div>
+
+                <button type="button" id="resetFilters" class="btn">
+                    Reset
+                </button>
+            </div>
+
+            <p id="resultCount" class="result-count" aria-live="polite">
+                Loading students...
+            </p>
+
+            <div class="student-table-wrapper">
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Course</th>
+                            <th scope="col">Semester</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                        <tr>
+                            <td colspan="5">Loading student records...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination" aria-label="Student results pagination">
+                <button type="button" id="previousPage" class="btn" disabled>
+                    ← Previous
+                </button>
+                <span id="pageInfo" aria-live="polite">Page 1</span>
+                <button type="button" id="nextPage" class="btn" disabled>
+                    Next →
+                </button>
+            </div>
+
+            <p id="directoryMessage" class="directory-message"
+                role="status" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 StudentHub. All rights reserved.</p>
+    </footer>
+</body>
+</html>
