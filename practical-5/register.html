@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentHub | Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🎓 StudentHub</h1>
+        <p>Create Your Student Account</p>
+
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html" aria-current="page">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Student Registration</h2>
+
+        
+<section class="registration-section">
+    <div class="registration-card">
+        <h1>Create Your StudentHub Account</h1>
+        <p class="form-description">Enter your details to register as a student.</p>
+
+        <form id="registrationForm" novalidate>
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName"
+                    placeholder="Enter your full name" autocomplete="name"
+                    required>
+                <small class="field-error" id="fullNameError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email"
+                    placeholder="student@example.com" autocomplete="email"
+                    required>
+                <small class="field-error" id="emailError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Mobile Number</label>
+                <input type="tel" id="phone" name="phone"
+                    placeholder="Enter 10-digit mobile number"
+                    autocomplete="tel" required>
+                <small class="field-error" id="phoneError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="course">Select Course</label>
+                <select id="course" name="course" required>
+                    <option value="">Choose your course</option>
+                    <option value="BCA">BCA</option>
+                    <option value="BSc IT">BSc IT</option>
+                    <option value="BTech">BTech</option>
+                    <option value="MCA">MCA</option>
+                    <option value="Other">Other</option>
+                </select>
+                <small class="field-error" id="courseError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"
+                    placeholder="Create a strong password"
+                    autocomplete="new-password" required>
+                <small class="field-hint">
+                    At least 8 characters, with uppercase, lowercase,
+                    a number and a special character.
+                </small>
+                <small class="field-error" id="passwordError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Re-enter your password"
+                    autocomplete="new-password" required>
+                <small class="field-error" id="confirmPasswordError"></small>
+            </div>
+
+            <div class="terms-group">
+                <label>
+                    <input type="checkbox" id="terms" name="terms" required>
+                    I agree to the terms and conditions.
+                </label>
+                <small class="field-error" id="termsError"></small>
+            </div>
+
+            <button type="submit" class="btn register-submit">
+                Create Account
+            </button>
+
+            <p id="formMessage" class="form-message"
+                role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </p>
+    </div>
+</section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 StudentHub Portal. All rights reserved.</p>
+    </footer>
+    <script src="script.js" defer></script>
+<script src="validation.js" defer></script>
+</body>
+</html>
