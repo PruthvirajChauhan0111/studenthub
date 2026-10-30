@@ -1,148 +1,60 @@
 
-document.addEventListener("DOMContentLoaded", function () {
-    const tableBody = document.getElementById("studentTableBody");
+document.addEventListener("DOMContentLoaded", async function () {
     const searchInput = document.getElementById("studentSearch");
     const courseFilter = document.getElementById("courseFilter");
     const resetButton = document.getElementById("resetFilters");
+    const tableBody = document.getElementById("studentTableBody");
     const resultCount = document.getElementById("resultCount");
     const pageInfo = document.getElementById("pageInfo");
     const previousButton = document.getElementById("previousPage");
     const nextButton = document.getElementById("nextPage");
-    const directoryMessage = document.getElementById("directoryMessage");
+    const message = document.getElementById("directoryMessage");
 
-    let allStudents = [];
-    let currentPage = 1;
+    if (!searchInput || !courseFilter || !tableBody) return;
+
     const pageSize = 5;
+    let students = [];
+    let currentPage = 1;
 
-    // Absolute API path for your StudentHub project.
-    const API_URL = "/student/practical-7/students-api.php";
-
-    async function loadStudents() {
-        try {
-            if (!tableBody) {
-                throw new Error("Student table body was not found in students.html.");
-            }
-
-            directoryMessage.textContent = "Loading students...";
-
-            const response = await fetch(
-                API_URL + "?nocache=" + Date.now(),
-                {
-                    method: "GET",
-                    cache: "no-store",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("API returned HTTP " + response.status);
-            }
-
-            const data = await response.json();
-
-            if (!data.success || !Array.isArray(data.students)) {
-                throw new Error("The API response format is incorrect.");
-            }
-
-            allStudents = data.students;
-            currentPage = 1;
-
-            // Populate the course filter from available student records.
-            if (courseFilter) {
-                const selectedCourse = courseFilter.value;
-                const courses = [...new Set(
-                    allStudents
-                        .map(student => String(student.course || "").trim())
-                        .filter(Boolean)
-                )].sort();
-
-                courseFilter.replaceChildren();
-
-                const allOption = document.createElement("option");
-                allOption.value = "all";
-                allOption.textContent = "All courses";
-                courseFilter.appendChild(allOption);
-
-                courses.forEach(course => {
-                    const option = document.createElement("option");
-                    option.value = course.toLowerCase();
-                    option.textContent = course;
-                    courseFilter.appendChild(option);
-                });
-
-                if ([...courseFilter.options].some(
-                    option => option.value === selectedCourse
-                )) {
-                    courseFilter.value = selectedCourse;
-                }
-            }
-
-            renderStudents();
-        } catch (error) {
-            console.error("Student directory error:", error);
-
-            if (tableBody) {
-                tableBody.replaceChildren();
-
-                const row = document.createElement("tr");
-                const cell = document.createElement("td");
-
-                cell.colSpan = 5;
-                cell.textContent = "Unable to load student records.";
-
-                row.appendChild(cell);
-                tableBody.appendChild(row);
-            }
-
-            if (resultCount) {
-                resultCount.textContent = "Student loading failed";
-            }
-
-            if (directoryMessage) {
-                directoryMessage.textContent =
-                    error.message || "Unable to connect to the Student API.";
-            }
-        }
+    function createCell(value) {
+        const cell = document.createElement("td");
+        cell.textContent = String(value);
+        return cell;
     }
 
-    function renderStudents() {
-        if (!tableBody) return;
+    function getFilteredStudents() {
+        const query = searchInput.value.trim().toLowerCase();
+        const selectedCourse = courseFilter.value;
 
-        const search = searchInput
-            ? searchInput.value.trim().toLowerCase()
-            : "";
-
-        const course = courseFilter
-            ? courseFilter.value.toLowerCase()
-            : "all";
-
-        const filtered = allStudents.filter(function (student) {
+        return students.filter(function (student) {
             const matchesSearch = [
-                student.studentId,
+                student.id,
                 student.name,
                 student.email
             ].some(function (value) {
-                return String(value || "").toLowerCase().includes(search);
+                return String(value).toLowerCase().includes(query);
             });
 
             const matchesCourse =
-                course === "all" ||
-                String(student.course || "").toLowerCase() === course;
+                selectedCourse === "all" ||
+                student.course === selectedCourse;
 
             return matchesSearch && matchesCourse;
         });
+    }
 
-        const totalPages = Math.max(
-            1,
-            Math.ceil(filtered.length / pageSize)
+    function renderStudents() {
+        const filteredStudents = getFilteredStudents();
+        const totalStudents = filteredStudents.length;
+        const totalPages = Math.max(1, Math.ceil(totalStudents / pageSize));
+
+        currentPage = Math.min(currentPage, totalPages);
+
+        const startIndex = (currentPage - 1) * pageSize;
+        const visibleStudents = filteredStudents.slice(
+            startIndex,
+            startIndex + pageSize
         );
-
-        currentPage = Math.min(Math.max(1, currentPage), totalPages);
-
-        const start = (currentPage - 1) * pageSize;
-        const visibleStudents = filtered.slice(start, start + pageSize);
 
         tableBody.replaceChildren();
 
@@ -151,93 +63,120 @@ document.addEventListener("DOMContentLoaded", function () {
             const cell = document.createElement("td");
 
             cell.colSpan = 5;
-            cell.textContent = "No matching students found.";
-
+            cell.textContent = "No students match your search.";
             row.appendChild(cell);
             tableBody.appendChild(row);
         } else {
             visibleStudents.forEach(function (student) {
                 const row = document.createElement("tr");
 
-                [
-                    student.studentId,
-                    student.name,
-                    student.email,
-                    student.course,
-                    student.semester
-                ].forEach(function (value) {
-                    const cell = document.createElement("td");
-                    cell.textContent = value || "—";
-                    row.appendChild(cell);
-                });
+                row.append(
+                    createCell(student.id),
+                    createCell(student.name),
+                    createCell(student.email),
+                    createCell(student.course),
+                    createCell(student.semester)
+                );
 
                 tableBody.appendChild(row);
             });
         }
 
-        if (resultCount) {
-            resultCount.textContent =
-                "Showing " + visibleStudents.length +
-                " of " + filtered.length + " students";
-        }
+        resultCount.textContent =
+            "Showing " + (totalStudents ? startIndex + 1 : 0) +
+            "–" + Math.min(startIndex + pageSize, totalStudents) +
+            " of " + totalStudents + " students";
 
-        if (pageInfo) {
-            pageInfo.textContent =
-                "Page " + currentPage + " of " + totalPages;
-        }
+        pageInfo.textContent =
+            "Page " + currentPage + " of " + totalPages;
 
-        if (previousButton) {
-            previousButton.disabled = currentPage <= 1;
-        }
-
-        if (nextButton) {
-            nextButton.disabled = currentPage >= totalPages;
-        }
-
-        if (directoryMessage) {
-            directoryMessage.textContent = "";
-        }
+        previousButton.disabled = currentPage <= 1;
+        nextButton.disabled = currentPage >= totalPages;
     }
 
-    if (searchInput) {
-        searchInput.addEventListener("input", function () {
-            currentPage = 1;
+    searchInput.addEventListener("input", function () {
+        currentPage = 1;
+        renderStudents();
+    });
+
+    courseFilter.addEventListener("change", function () {
+        currentPage = 1;
+        renderStudents();
+    });
+
+    resetButton.addEventListener("click", function () {
+        searchInput.value = "";
+        courseFilter.value = "all";
+        currentPage = 1;
+        message.textContent = "";
+        renderStudents();
+        searchInput.focus();
+    });
+
+    previousButton.addEventListener("click", function () {
+        if (currentPage > 1) {
+            currentPage--;
             renderStudents();
-        });
-    }
+        }
+    });
 
-    if (courseFilter) {
-        courseFilter.addEventListener("change", function () {
-            currentPage = 1;
-            renderStudents();
-        });
-    }
+    nextButton.addEventListener("click", function () {
+        const totalPages = Math.max(
+            1,
+            Math.ceil(getFilteredStudents().length / pageSize)
+        );
 
-    if (resetButton) {
-        resetButton.addEventListener("click", function () {
-            if (searchInput) searchInput.value = "";
-            if (courseFilter) courseFilter.value = "all";
-
-            currentPage = 1;
-            renderStudents();
-        });
-    }
-
-    if (previousButton) {
-        previousButton.addEventListener("click", function () {
-            if (currentPage > 1) {
-                currentPage--;
-                renderStudents();
-            }
-        });
-    }
-
-    if (nextButton) {
-        nextButton.addEventListener("click", function () {
+        if (currentPage < totalPages) {
             currentPage++;
             renderStudents();
-        });
-    }
+        }
+    });
 
-    loadStudents();
+    try {
+        const response = await fetch("students.json");
+
+        if (!response.ok) {
+            throw new Error("Could not load students.json.");
+        }
+
+        const data = await response.json();
+
+        if (!data || !Array.isArray(data.students)) {
+            throw new Error("The JSON file must contain a students array.");
+        }
+
+        students = data.students.filter(function (student) {
+            return student &&
+                ["id", "name", "email", "course", "semester"].every(
+                    function (key) {
+                        return student[key] !== undefined &&
+                            student[key] !== null;
+                    }
+                );
+        });
+
+        message.textContent = "";
+        renderStudents();
+    } catch (error) {
+        tableBody.replaceChildren();
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 5;
+        cell.textContent =
+            "Unable to load student records. Run this page through XAMPP " +
+            "and check that students.json is in the same folder.";
+
+        row.appendChild(cell);
+        tableBody.appendChild(row);
+
+        resultCount.textContent = "Student data unavailable";
+        pageInfo.textContent = "Page 0";
+        previousButton.disabled = true;
+        nextButton.disabled = true;
+        message.textContent = error.message;
+
+        console.error("Student directory error:", error);
+    }
 });

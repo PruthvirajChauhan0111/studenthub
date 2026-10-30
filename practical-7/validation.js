@@ -185,9 +185,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-       message.textContent = "Validation successful. Submitting registration...";
-message.className = "form-message success-message";
-
-form.submit();
+        message.textContent =
+            "Validation successful! Your form is ready for backend integration.";
+        message.className = "form-message success-message";
     });
 });

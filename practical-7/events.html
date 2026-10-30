@@ -3,128 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events | StudentHub</title>
+    <title>StudentHub | Events</title>
     <link rel="stylesheet" href="style.css">
-    <script src="events.js" defer></script>
 </head>
 <body>
-<header>
-    <h1>StudentHub</h1>
-    <p>Your student information portal</p>
-    <nav>
-        <a href="index.html">Home</a> |
-        <a href="students.html">Students</a> |
-        <a href="events.html" aria-current="page">Events</a> |
-        <a href="register.html">Register</a>
-    </nav>
-</header>
+    <header>
+        <h1>🎓 StudentHub</h1>
+        <p>Discover What's Happening on Campus</p>
 
-<main class="student-directory">
-    <section class="directory-heading">
-        <p class="directory-eyebrow">CAMPUS LIFE</p>
-        <h2>Events and Activities</h2>
-        <p>Explore upcoming events and register to participate.</p>
-    </section>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="events.html" aria-current="page">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <section class="directory-panel">
+    <main>
         <h2>Upcoming Events</h2>
+        <p>Explore activities, competitions and learning opportunities.</p>
 
-        <div class="directory-controls">
-            <label for="eventSearch">Search events</label>
-            <input id="eventSearch" type="search"
-                   placeholder="Search title or venue">
-        </div>
+        <section class="grid" aria-label="College events">
+            <article>
+                <h3>💻 Coding Competition</h3>
+                <p><strong>Date:</strong> 15 November 2026</p>
+                <p><strong>Venue:</strong> Computer Lab</p>
+                <p>
+                    Test your programming skills, solve coding challenges
+                    and collaborate with fellow students.
+                </p>
+                <a class="btn" href="contact.html">Enquire Now</a>
+            </article>
 
-        <p id="eventMessage" role="status" aria-live="polite">
-            Loading events...
-        </p>
+            <article>
+                <h3>🏅 Sports Day</h3>
+                <p><strong>Date:</strong> 20 November 2026</p>
+                <p><strong>Venue:</strong> College Sports Ground</p>
+                <p>
+                    Participate in sports competitions, support your teams
+                    and celebrate teamwork.
+                </p>
+                <a class="btn" href="contact.html">Enquire Now</a>
+            </article>
 
-        <div id="eventsList"></div>
-    </section>
+            <article>
+                <h3>🤖 AI Seminar</h3>
+                <p><strong>Date:</strong> 25 November 2026</p>
+                <p><strong>Venue:</strong> Seminar Hall</p>
+                <p>
+                    Discover artificial intelligence concepts and explore
+                    emerging technology trends.
+                </p>
+                <a class="btn" href="contact.html">Enquire Now</a>
+            </article>
+        </section>
+    </main>
 
-    <section class="directory-panel">
-        <h2>Register for an Event</h2>
-
-        <form id="eventRegistrationForm">
-            <label for="eventSelect">Select event</label>
-            <select id="eventSelect" name="event_id" required>
-                <option value="">Loading events...</option>
-            </select>
-
-            <label for="studentName">Full name</label>
-            <input id="studentName" name="student_name"
-                   type="text" maxlength="100" required>
-
-            <label for="studentEmail">Email address</label>
-            <input id="studentEmail" name="student_email"
-                   type="email" maxlength="150" required>
-
-            <button class="btn" type="submit">Register for Event</button>
-        </form>
-
-        <p id="registrationMessage" role="status"
-           aria-live="polite"></p>
-    </section>
-
-    <section class="directory-panel">
-        <h2>Add an Event</h2>
-        <p>For demonstration purposes, this form is not protected by an admin login.
-           Add administrator authentication before deploying publicly.</p>
-
-        <form id="addEventForm">
-            <label for="eventTitle">Event title</label>
-            <input id="eventTitle" name="title"
-                   maxlength="150" required>
-
-            <label for="eventDate">Event date</label>
-            <input id="eventDate" name="event_date"
-                   type="date" required>
-
-            <label for="eventVenue">Venue</label>
-            <input id="eventVenue" name="venue"
-                   maxlength="150" required>
-
-            <label for="eventDescription">Description</label>
-            <textarea id="eventDescription" name="description"
-                      rows="4"></textarea>
-
-            <button class="btn" type="submit">Add Event</button>
-        </form>
-
-        <p id="addEventMessage" role="status"
-           aria-live="polite"></p>
-    </section>
-
-    <section class="directory-panel">
-        <h2>Event Registrations</h2>
-        <button type="button" id="loadRegistrations" class="btn">
-            View Registrations
-        </button>
-
-        <div class="student-table-wrapper">
-            <table class="student-table">
-                <thead>
-                    <tr>
-                        <th>Event</th>
-                        <th>Student</th>
-                        <th>Email</th>
-                        <th>Registered At</th>
-                    </tr>
-                </thead>
-                <tbody id="registrationsBody">
-                    <tr>
-                        <td colspan="4">Click View Registrations to load data.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <p id="registrationsMessage" role="status"></p>
-    </section>
-</main>
-
-<footer>
-    <p>&copy; 2026 StudentHub. All rights reserved.</p>
-</footer>
+    <footer>
+        <p>&copy; 2026 StudentHub Portal. All rights reserved.</p>
+    </footer>
+    <script src="script.js" defer></script>
 </body>
 </html>

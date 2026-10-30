@@ -1,1 +1,4 @@
-Require all granted
+
+<Files "registrations.json">
+    Require all denied
+</Files>
