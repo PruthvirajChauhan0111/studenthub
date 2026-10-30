@@ -1,0 +1,89 @@
+
+{
+  "students": [
+    {
+      "id": "STU101",
+      "name": "Aarav Patel",
+      "email": "aarav@example.com",
+      "course": "BCA",
+      "semester": 2
+    },
+    {
+      "id": "STU102",
+      "name": "Diya Shah",
+      "email": "diya@example.com",
+      "course": "BSc IT",
+      "semester": 4
+    },
+    {
+      "id": "STU103",
+      "name": "Rohan Mehta",
+      "email": "rohan@example.com",
+      "course": "BTech",
+      "semester": 6
+    },
+    {
+      "id": "STU104",
+      "name": "Ananya Desai",
+      "email": "ananya@example.com",
+      "course": "MCA",
+      "semester": 2
+    },
+    {
+      "id": "STU105",
+      "name": "Vivaan Joshi",
+      "email": "vivaan@example.com",
+      "course": "BCA",
+      "semester": 4
+    },
+    {
+      "id": "STU106",
+      "name": "Isha Trivedi",
+      "email": "isha@example.com",
+      "course": "BSc IT",
+      "semester": 6
+    },
+    {
+      "id": "STU107",
+      "name": "Krish Parmar",
+      "email": "krish@example.com",
+      "course": "BTech",
+      "semester": 4
+    },
+    {
+      "id": "STU108",
+      "name": "Myra Bhatt",
+      "email": "myra@example.com",
+      "course": "MCA",
+      "semester": 4
+    },
+    {
+      "id": "STU109",
+      "name": "Arjun Patel",
+      "email": "arjun@example.com",
+      "course": "BCA",
+      "semester": 6
+    },
+    {
+      "id": "STU110",
+      "name": "Sara Shah",
+      "email": "sara@example.com",
+      "course": "BSc IT",
+      "semester": 2
+    },
+    {
+      "id": "STU111",
+      "name": "Dev Malhotra",
+      "email": "dev@example.com",
+      "course": "BTech",
+      "semester": 8
+    },
+    {
+      "id": "STU112",
+      "name": "Niyati Gandhi",
+      "email": "niyati@example.com",
+      "course": "MCA",
+      "semester": 6
+    }
+  ]
+}
