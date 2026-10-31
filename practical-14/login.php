@@ -3,6 +3,8 @@ require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/db_mysqli.php';
 
 if (!empty($_SESSION['user_id'])) {
+    requireLogin();
+
     header('Location: ' . sh_home_for_role($_SESSION['role'] ?? 'student'));
     exit;
 }
@@ -12,6 +14,8 @@ $messageType = 'error';
 
 if (isset($_GET['timeout'])) {
     $message = 'Your session expired due to inactivity. Please log in again.';
+} elseif (isset($_GET['inactive'])) {
+    $message = 'Your account is inactive. Please contact the administrator.';
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
